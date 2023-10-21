@@ -16,17 +16,17 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
-    @GetMapping("get/books")
+    @GetMapping("api/books")
     public List<BookDto> getAll() {
         return bookService.findAll();
     }
 
-    @GetMapping("get/books/{id}")
+    @GetMapping("api/books/{id}")
     public BookDto getById(@PathVariable Long id) {
         return bookService.findById(id);
     }
 
-    @PostMapping("post/books")
+    @PostMapping("api/books")
     public BookDto createBook(@RequestBody CreateBookRequestDto createBookRequestDto) {
         return bookService.save(createBookRequestDto);
     }
