@@ -1,7 +1,6 @@
 package mate.academy.service.impl;
 
 import java.util.List;
-import java.util.Optional;
 import mate.academy.dto.BookDto;
 import mate.academy.dto.BookSearchParametersDto;
 import mate.academy.dto.CreateBookRequestDto;
@@ -56,20 +55,12 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto update(Long id, CreateBookRequestDto updateBookRequestDto) {
-        Optional<Book> optionalBook = bookRepository.findById(id);
-        if (optionalBook.isPresent()) {
-            Book existingBook = optionalBook.get();
-            existingBook.setTitle(updateBookRequestDto.getTitle());
-            existingBook.setAuthor(updateBookRequestDto.getAuthor());
-            existingBook.setIsbn(updateBookRequestDto.getIsbn());
-            existingBook.setPrice(updateBookRequestDto.getPrice());
-            existingBook.setDescription(updateBookRequestDto.getDescription());
-            existingBook.setCoverImage(updateBookRequestDto.getCoverImage());
-            Book updatedBook = bookRepository.save(existingBook);
-            return bookMapper.toDto(updatedBook);
-        } else {
-            throw new RuntimeException("Book not found");
-        }
+        Book existingBook = bookRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Book not found"));
+
+        updateBookFields(existingBook, updateBookRequestDto);
+        Book updatedBook = bookRepository.save(existingBook);
+        return bookMapper.toDto(updatedBook);
     }
 
     @Override
@@ -79,5 +70,14 @@ public class BookServiceImpl implements BookService {
                 .stream()
                 .map(bookMapper::toDto)
                 .toList();
+    }
+
+    private void updateBookFields(Book book, CreateBookRequestDto updateBookRequestDto) {
+        book.setTitle(updateBookRequestDto.getTitle());
+        book.setAuthor(updateBookRequestDto.getAuthor());
+        book.setIsbn(updateBookRequestDto.getIsbn());
+        book.setPrice(updateBookRequestDto.getPrice());
+        book.setDescription(updateBookRequestDto.getDescription());
+        book.setCoverImage(updateBookRequestDto.getCoverImage());
     }
 }
