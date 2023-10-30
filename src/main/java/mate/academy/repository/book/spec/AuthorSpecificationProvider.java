@@ -19,3 +19,4 @@ public class AuthorSpecificationProvider implements SpecificationProvider<Book> 
                 .in(Arrays.stream(params).toArray()));
     }
 }
+

@@ -21,3 +21,4 @@ public class BookSpecificationProviderManager implements SpecificationProviderMa
                         + "for key " + key));
     }
 }
+
