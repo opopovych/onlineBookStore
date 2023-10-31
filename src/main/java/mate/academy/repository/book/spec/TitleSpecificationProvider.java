@@ -19,3 +19,4 @@ public class TitleSpecificationProvider implements SpecificationProvider<Book> {
                 .in(Arrays.stream(params).toArray()));
     }
 }
+
