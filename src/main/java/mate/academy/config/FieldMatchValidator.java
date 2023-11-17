@@ -2,28 +2,25 @@ package mate.academy.config;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import mate.academy.model.User;
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanWrapperImpl;
 
-public class FieldMatchValidator implements ConstraintValidator<FieldMatch, User> {
+public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Object> {
+
+    private String firstFieldName;
+    private String secondFieldName;
 
     @Override
-    public void initialize(FieldMatch constraintAnnotation) {
+    public void initialize(final FieldMatch constraintAnnotation) {
+        firstFieldName = constraintAnnotation.first();
+        secondFieldName = constraintAnnotation.second();
     }
 
     @Override
-    public boolean isValid(User user, ConstraintValidatorContext context) {
-        if (user == null) {
-            return false;
-        }
-        if (user.getEmail() == null) {
-            return false;
-        }
+    public boolean isValid(final Object value, final ConstraintValidatorContext context) {
+        Object firstObj = new BeanWrapperImpl(value).getPropertyValue(firstFieldName);
+        Object secondObj = new BeanWrapperImpl(value).getPropertyValue(secondFieldName);
 
-        if (StringUtils.isBlank(user.getEmail())) {
-            return false;
-        }
-        return true;
-
+        return firstObj == null && secondObj == null || firstObj != null
+                && firstObj.equals(secondObj);
     }
 }
