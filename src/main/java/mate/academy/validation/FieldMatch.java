@@ -1,4 +1,4 @@
-package mate.academy.config;
+package mate.academy.validation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

@@ -2,7 +2,7 @@ package mate.academy.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import mate.academy.config.FieldMatch;
+import mate.academy.validation.FieldMatch;
 import org.hibernate.validator.constraints.Length;
 
 @Data
