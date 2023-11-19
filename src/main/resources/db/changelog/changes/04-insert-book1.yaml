@@ -1,0 +1,26 @@
+databaseChangeLog:
+  - changeSet:
+      id: insertBook
+      author: opopovich
+      changes:
+        - insert:
+            tableName: books
+            columns:
+              - column:
+                  name: title
+                  value: "Your Book Title"
+              - column:
+                  name: author
+                  value: "Author Name"
+              - column:
+                  name: isbn
+                  value: "1234567890"
+              - column:
+                  name: price
+                  value: 29.99
+              - column:
+                  name: description
+                  value: "Book Description"
+              - column:
+                  name: cover-image
+                  value: "path/to/cover-image.jpg"
