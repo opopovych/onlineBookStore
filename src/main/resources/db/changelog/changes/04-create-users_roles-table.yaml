@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-users_roles-table
+      author: opopovich
+      changes:
+        - createTable:
+            tableName: users_roles
+            columns:
+              - column:
+                  name: role_id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
