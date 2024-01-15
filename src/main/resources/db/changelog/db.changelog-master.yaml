@@ -4,6 +4,12 @@ databaseChangeLog:
   - include:
       file: db/changelog/changes/02-create-users-table.yaml
   - include:
-      file: db/changelog/changes/03-insert-user1.yaml
+      file: db/changelog/changes/03-create-roles-table.yaml
   - include:
-      file: db/changelog/changes/04-insert-book1.yaml
+      file: db/changelog/changes/04-create-users_roles-table.yaml
+  - include:
+      file: db/changelog/changes/05-insert-roles-to-roles-table.yaml
+  - include:
+      file: db/changelog/changes/06-insert-user1.yaml
+  - include:
+      file: db/changelog/changes/07-insert-book1.yaml
