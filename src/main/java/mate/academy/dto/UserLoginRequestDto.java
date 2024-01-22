@@ -12,6 +12,6 @@ public class UserLoginRequestDto {
     @Email
     private String email;
     @NotEmpty
-    @Length(min = 8, max = 50)
+    @Length(min = 4, max = 50)
     private String password;
 }
