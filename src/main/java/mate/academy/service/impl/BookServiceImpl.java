@@ -1,9 +1,11 @@
 package mate.academy.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
-import mate.academy.dto.BookDto;
-import mate.academy.dto.BookSearchParametersDto;
-import mate.academy.dto.CreateBookRequestDto;
+import mate.academy.dto.book.BookDto;
+import mate.academy.dto.book.BookDtoWithoutCategoryIds;
+import mate.academy.dto.book.BookSearchParametersDto;
+import mate.academy.dto.book.CreateBookRequestDto;
 import mate.academy.exception.EntityNotFoundException;
 import mate.academy.mapper.BookMapper;
 import mate.academy.model.Book;
@@ -80,5 +82,17 @@ public class BookServiceImpl implements BookService {
         book.setPrice(updateBookRequestDto.getPrice());
         book.setDescription(updateBookRequestDto.getDescription());
         book.setCoverImage(updateBookRequestDto.getCoverImage());
+    }
+
+    @Override
+    public List<BookDtoWithoutCategoryIds> findByCategoryId(Long id) {
+        List<BookDtoWithoutCategoryIds> bookDtos = new ArrayList<>();
+        for (Book book : bookRepository.findByCategoryId(id)) {
+            bookDtos.add(bookMapper.toDtoWithoutCategories(book));
+        }
+        if (bookDtos.isEmpty()) {
+            throw new EntityNotFoundException("Cannot find any book by category id: " + id);
+        }
+        return bookDtos;
     }
 }
