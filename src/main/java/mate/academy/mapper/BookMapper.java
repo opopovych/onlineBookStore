@@ -39,8 +39,8 @@ public interface BookMapper {
         book.setCategories(categories);
     }
 
-    @Named(value = "bookById")
-    default Book bookById(Long id) {
+    @Named("bookFromId")
+    default Book bookFromId(Long id) {
         Book book = new Book();
         book.setId(id);
         return book;
