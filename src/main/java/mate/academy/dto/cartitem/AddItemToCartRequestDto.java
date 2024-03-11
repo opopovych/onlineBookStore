@@ -1,4 +1,4 @@
-package mate.academy.dto.cartItem;
+package mate.academy.dto.cartitem;
 
 import jakarta.validation.constraints.Positive;
 

@@ -1,8 +1,8 @@
 package mate.academy.service;
 
-import mate.academy.dto.cartItem.AddItemToCartRequestDto;
-import mate.academy.dto.cartItem.UpdateCartItemRequestDto;
-import mate.academy.dto.shoppingCart.ShoppingCartDto;
+import mate.academy.dto.cartitem.AddItemToCartRequestDto;
+import mate.academy.dto.cartitem.UpdateCartItemRequestDto;
+import mate.academy.dto.shoppingcart.ShoppingCartDto;
 import mate.academy.model.ShoppingCart;
 import mate.academy.model.User;
 
