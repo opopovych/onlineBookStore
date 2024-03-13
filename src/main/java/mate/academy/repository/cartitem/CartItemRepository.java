@@ -4,9 +4,13 @@ import mate.academy.model.CartItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface CartItemRepository extends JpaRepository<CartItem, Long> {
     @Modifying
-    @Query("DELETE FROM CartItem c WHERE c.shoppingCart.id = :cartId")
+    @Query("UPDATE CartItem item "
+            + "SET item.deleted = true "
+            + "WHERE item.shoppingCart.id = :cartId")
     void deleteByShoppingCartId(Long cartId);
 }
