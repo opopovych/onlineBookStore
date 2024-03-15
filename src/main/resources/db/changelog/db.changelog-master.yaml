@@ -25,3 +25,5 @@ databaseChangeLog:
       file: db/changelog/changes/12-insert-shopping-cart.yaml
   - include:
       file: db/changelog/changes/13-insert-cart-item.yaml
+  - include:
+      file: db/changelog/changes/14-add-soft-delete-column-to-cart-item.yaml

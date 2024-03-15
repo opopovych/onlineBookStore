@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: add_soft_delete_column_to_cart_item
+      author: opopovich
+      changes:
+        - addColumn:
+            tableName: cart_items
+            columns:
+              - column:
+                  name: deleted
+                  type: boolean
+                  constraints:
+                    defaultValueBoolean: false
