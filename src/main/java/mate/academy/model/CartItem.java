@@ -11,16 +11,15 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.SQLRestriction;
 
 @Entity
 @Getter
 @Setter
-@SQLDelete(sql = "UPDATE cart_items SET deleted = true WHERE id=?")
-@Where(clause = "deleted=false")
+@SQLDelete(sql = "UPDATE cart_items SET deleted = TRUE WHERE id = ?")
+@SQLRestriction("deleted = FALSE")
 @Table(name = "cart_items")
 public class CartItem {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

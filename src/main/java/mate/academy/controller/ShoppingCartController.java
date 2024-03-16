@@ -11,6 +11,7 @@ import mate.academy.model.User;
 import mate.academy.service.ShoppingCartService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Shopping cart manager", description = "Endpoints for managing shopping carts")
 @RestController
-@RequestMapping("/api/cart")
+@RequestMapping("/cart")
 @RequiredArgsConstructor
 public class ShoppingCartController {
     private final ShoppingCartService shoppingCartService;
@@ -31,9 +32,8 @@ public class ShoppingCartController {
     @Operation(summary = "Get the shopping cart",
             description = "Get user's shopping cart, show what is in it")
     @GetMapping
-    ShoppingCartDto getCart(Authentication authentication) {
-        User user = (User) authentication.getPrincipal();
-        return shoppingCartService.getCartByUserId(user.getId());
+    ShoppingCartDto getCart() {
+        return shoppingCartService.getCartByUserId(getCurrentUserId());
     }
 
     @PreAuthorize("hasAuthority('USER')")
@@ -42,8 +42,7 @@ public class ShoppingCartController {
     @PostMapping
     ShoppingCartDto addBooks(Authentication authentication,
                              @RequestBody @Valid AddItemToCartRequestDto requestDto) {
-        User user = (User) authentication.getPrincipal();
-        return shoppingCartService.addBookToCartByUserId(user.getId(), requestDto);
+        return shoppingCartService.addBookToCartByUserId(getCurrentUserId(), requestDto);
     }
 
     @PreAuthorize("hasAuthority('USER')")
@@ -53,8 +52,7 @@ public class ShoppingCartController {
     ShoppingCartDto updateItems(Authentication authentication,
                                 @PathVariable Long cartItemId,
                                 @RequestBody @Valid UpdateCartItemRequestDto requestDto) {
-        User user = (User) authentication.getPrincipal();
-        return shoppingCartService.updateCartItemById(user.getId(), cartItemId, requestDto);
+        return shoppingCartService.updateCartItemById(getCurrentUserId(), cartItemId, requestDto);
     }
 
     @PreAuthorize("hasAuthority('USER')")
@@ -63,7 +61,15 @@ public class ShoppingCartController {
     @DeleteMapping("/cart-items/{cartItemId}")
     ShoppingCartDto deleteItems(Authentication authentication,
                                 @PathVariable Long cartItemId) {
-        User user = (User) authentication.getPrincipal();
-        return shoppingCartService.delete(user.getId(), cartItemId);
+        return shoppingCartService.delete(getCurrentUserId(), cartItemId);
+    }
+
+    private Long getCurrentUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof User) {
+            User user = (User) authentication.getPrincipal();
+            return user.getId();
+        }
+        throw new IllegalStateException("User is not authenticated");
     }
 }
