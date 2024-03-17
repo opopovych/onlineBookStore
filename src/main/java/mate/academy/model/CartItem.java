@@ -17,7 +17,6 @@ import org.hibernate.annotations.SQLRestriction;
 @Getter
 @Setter
 @SQLDelete(sql = "UPDATE cart_items SET deleted = TRUE WHERE id = ?")
-//@Where(clause = "deleted = FALSE")
 @Table(name = "cart_items")
 public class CartItem {
     @Id
