@@ -1,6 +1,7 @@
+
 package mate.academy.service.impl;
 
-import java.util.HashSet;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import mate.academy.dto.cartitem.AddItemToCartRequestDto;
 import mate.academy.dto.cartitem.UpdateCartItemRequestDto;
@@ -26,31 +27,19 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final CartItemMapper cartItemMapper;
     private final ShoppingCartMapper cartMapper;
 
+    @Transactional
     @Override
-    public ShoppingCart createShoppingCart(User user) {
-        ShoppingCart shoppingCart = new ShoppingCart();
-        shoppingCart.setUser(user);
-        shoppingCart.setCartItems(new HashSet<>());
-        return shoppingCartRepository.save(shoppingCart);
-    }
-
-    @Override
-    public ShoppingCartDto addBooksToCartByUserId(Long userId, AddItemToCartRequestDto requestDto) {
-        ShoppingCart cartFromDb = getCartFromDb(userId);
+    public ShoppingCartDto addBookToCartByUserId(Long userId, AddItemToCartRequestDto requestDto) {
+        ShoppingCart cartFromDb = cartFromDb(userId);
         CartItem requestedItem = cartItemMapper.toModel(requestDto);
         requestedItem.setShoppingCart(cartFromDb);
         cartItemRepository.save(requestedItem);
-        return cartMapper.toDto(getCartFromDb(userId));
+        return cartMapper.toDto(cartFromDb(userId));
     }
 
     @Override
-    public ShoppingCart getCartByUserId(Long id) {
-        return getCartFromDb(id);
-    }
-
-    @Override
-    public ShoppingCartDto getCartDtoByUserId(Long id) {
-        return cartMapper.toDto(getCartFromDb(id));
+    public ShoppingCartDto getCartByUserId(Long id) {
+        return cartMapper.toDto(cartFromDb(id));
     }
 
     @Override
@@ -59,13 +48,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         CartItem itemFromDb = getItemFromDb(cartItemId);
         cartItemMapper.updateFromDto(requestDto, itemFromDb);
         cartItemRepository.save(itemFromDb);
-        return cartMapper.toDto(getCartFromDb(userId));
+        return cartMapper.toDto(cartFromDb(userId));
     }
 
     @Override
     public ShoppingCartDto delete(Long userId, Long cartItemId) {
         cartItemRepository.deleteById(cartItemId);
-        return cartMapper.toDto(getCartFromDb(userId));
+        return cartMapper.toDto(cartFromDb(userId));
     }
 
     @Override
@@ -78,7 +67,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                 .orElseThrow(() -> new EntityNotFoundException("Can't find item by id=" + id));
     }
 
-    private ShoppingCart getCartFromDb(Long userId) {
+    private ShoppingCart cartFromDb(Long userId) {
         return shoppingCartRepository.findByUserId(userId)
                 .orElseGet(() -> {
                     ShoppingCart shoppingCart = new ShoppingCart();
