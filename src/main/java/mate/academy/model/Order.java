@@ -15,13 +15,15 @@ import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @SQLDelete(sql = "UPDATE orders SET deleted = TRUE WHERE id = ?")
 @Table(name = "orders")
