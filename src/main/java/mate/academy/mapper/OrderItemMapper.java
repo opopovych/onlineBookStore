@@ -21,7 +21,7 @@ public interface OrderItemMapper {
     @Mapping(target = "order", ignore = true)
     @Mapping(target = "id", ignore = true)
     @Mapping(source = "book.price", target = "price")
-    OrderItem toOrderItemModel(CartItem cartItem);
+    OrderItem toOrderItem(CartItem cartItem);
 
     @AfterMapping
     default void getPriceOfOrderItem(@MappingTarget OrderItem orderItem, CartItem cartItem) {

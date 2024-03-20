@@ -1,5 +1,6 @@
 package mate.academy.service.impl;
 
+import jakarta.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -36,11 +37,12 @@ public class OrderServiceImpl implements OrderService {
     private final CartItemRepository cartItemRepository;
 
     @Override
+    @Transactional
     public OrderResponseDto placeOrder(Long userId, OrderRequestDto requestDto) {
         ShoppingCart shoppingCart = shoppingCartRepository.findByUserId(userId)
                 .orElseThrow(() -> new EntityNotFoundException("shopping cart by user id : "
                         + userId + "is not found"));
-        Order order = orderRepository.save(createOrder(userId, shoppingCart, requestDto));
+        Order order = createOrder(userId, shoppingCart, requestDto);
         Set<OrderItem> orderItems = shoppingCart.getCartItems().stream()
                 .map(this::convertToOrderItem)
                 .collect(Collectors.toSet());
@@ -52,8 +54,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderResponseDto> getAllByUserId(Long userId) {
-        return orderRepository.findAllByUserId(userId)
-                .stream()
+        return orderRepository.findAllByUserId(userId).stream()
                 .map(orderMapper::toDto)
                 .toList();
     }
@@ -88,7 +89,7 @@ public class OrderServiceImpl implements OrderService {
     private Set<OrderItem> createOrderItemsSet(ShoppingCart shoppingCart, Order order) {
         return shoppingCart.getCartItems().stream()
                 .map(cartItem -> {
-                    OrderItem orderItem = orderItemMapper.toOrderItemModel(cartItem);
+                    OrderItem orderItem = orderItemMapper.toOrderItem(cartItem);
                     orderItem.setOrder(order);
                     return orderItem;
                 })
@@ -103,6 +104,7 @@ public class OrderServiceImpl implements OrderService {
         order.setShippingAddress(requestDto.shippingAddress());
         order.setTotal(getTotalPrice(shoppingCart.getCartItems()));
         order.setOrderDate(LocalDateTime.now());
+        orderRepository.save(order);
         return order;
     }
 

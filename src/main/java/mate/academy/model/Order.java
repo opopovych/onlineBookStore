@@ -25,7 +25,7 @@ import org.hibernate.annotations.SQLRestriction;
 @Getter
 @Setter
 @NoArgsConstructor
-@SQLDelete(sql = "UPDATE orders SET deleted = TRUE WHERE id = ?")
+@SQLDelete(sql = "UPDATE orders SET isDeleted = TRUE WHERE id = ?")
 @Table(name = "orders")
 public class Order {
     @Id
@@ -45,8 +45,8 @@ public class Order {
     private String shippingAddress;
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
     private Set<OrderItem> orderItems;
-    @SQLRestriction("deleted = FALSE")
-    private boolean deleted = false;
+    @SQLRestriction("is_deleted = FALSE")
+    private boolean isDeleted = false;
 
     public enum Status {
         PENDING,
