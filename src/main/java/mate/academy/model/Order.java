@@ -43,7 +43,7 @@ public class Order {
     private LocalDateTime orderDate;
     @Column(nullable = false)
     private String shippingAddress;
-    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "order")
     private Set<OrderItem> orderItems;
     @SQLRestriction("is_deleted = FALSE")
     private boolean isDeleted = false;
