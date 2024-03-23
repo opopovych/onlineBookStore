@@ -9,6 +9,5 @@ databaseChangeLog:
               - column:
                   name: deleted
                   type: boolean
-                  defaultValueBoolean: false
                   constraints:
-                    nullable: false
+                    defaultValueBoolean: false

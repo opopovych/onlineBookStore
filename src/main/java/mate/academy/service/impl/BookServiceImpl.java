@@ -1,6 +1,5 @@
 package mate.academy.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import mate.academy.dto.book.BookDto;
 import mate.academy.dto.book.BookDtoWithoutCategoryIds;
@@ -86,13 +85,9 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<BookDtoWithoutCategoryIds> findByCategoryId(Long id) {
-        List<BookDtoWithoutCategoryIds> bookDtos = new ArrayList<>();
-        for (Book book : bookRepository.findByCategoryId(id)) {
-            bookDtos.add(bookMapper.toDtoWithoutCategories(book));
-        }
-        if (bookDtos.isEmpty()) {
-            throw new EntityNotFoundException("Cannot find any book by category id: " + id);
-        }
-        return bookDtos;
+        List<Book> books = bookRepository.findByCategoryId(id);
+        return books.stream()
+                .map(bookMapper::toDtoWithoutCategories)
+                .toList();
     }
 }
