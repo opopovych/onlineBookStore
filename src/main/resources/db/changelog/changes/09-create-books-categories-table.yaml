@@ -1,21 +1,21 @@
 databaseChangeLog:
   - changeSet:
-      id: create-roles-table
+      id: create-books-categories-table
       author: opopovich
       changes:
         - createTable:
-            tableName: roles
+            tableName: books_categories
             columns:
               - column:
                   name: id
-                  type: BIGINT
+                  type: bigint
                   autoIncrement: true
                   constraints:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: name
-                  type: VARCHAR(255)
-                  constraints:
-                    nullable: false
-                    unique: true
+                  name: book_id
+                  type: bigint
+              - column:
+                  name: category_id
+                  type: bigint

@@ -2,10 +2,10 @@ package mate.academy.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import mate.academy.dto.UserLoginRequestDto;
-import mate.academy.dto.UserLoginResponseDto;
-import mate.academy.dto.UserRegistrationRequestDto;
-import mate.academy.dto.UserResponseDto;
+import mate.academy.dto.user.UserLoginRequestDto;
+import mate.academy.dto.user.UserLoginResponseDto;
+import mate.academy.dto.user.UserRegistrationRequestDto;
+import mate.academy.dto.user.UserResponseDto;
 import mate.academy.security.AuthenticationService;
 import mate.academy.service.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
