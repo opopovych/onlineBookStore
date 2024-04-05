@@ -60,9 +60,10 @@ public class BookServiceImpl implements BookService {
         Book existingBook = bookRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Book not found"));
 
-        updateBookFields(existingBook, updateBookRequestDto);
-        Book updatedBook = bookRepository.save(existingBook);
-        return bookMapper.toDto(updatedBook);
+        //updateBookFields(existingBook, updateBookRequestDto);
+        Book updatedBook = bookMapper.toModel(updateBookRequestDto);
+        updatedBook.setId(id);
+        return bookMapper.toDto(bookRepository.save(updatedBook));
     }
 
     @Override
@@ -72,15 +73,6 @@ public class BookServiceImpl implements BookService {
                 .stream()
                 .map(bookMapper::toDto)
                 .toList();
-    }
-
-    private void updateBookFields(Book book, CreateBookRequestDto updateBookRequestDto) {
-        book.setTitle(updateBookRequestDto.getTitle());
-        book.setAuthor(updateBookRequestDto.getAuthor());
-        book.setIsbn(updateBookRequestDto.getIsbn());
-        book.setPrice(updateBookRequestDto.getPrice());
-        book.setDescription(updateBookRequestDto.getDescription());
-        book.setCoverImage(updateBookRequestDto.getCoverImage());
     }
 
     @Override
