@@ -64,7 +64,7 @@
 * `PUT: /api/cart/cart-items/{cartItemId}` - The endpoint for updating quantity of a specific item in shopping cart.
 * `DELETE: /api/cart/cart-items/{cartItemId}` - The endpoint for deleting items from a shopping cart.
 
-##How to run Book Store API
+## How to run Book Store API
 * Install Docker
 * Clone current project repository
 * Add your ".env" file (see .env.example)
