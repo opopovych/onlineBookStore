@@ -1,6 +1,6 @@
 #  Online Book Store
 > The Online Book Store is a Java Spring Boot application.
- 
+
 ## Used Technologies
 **Core Technologies:**
 * Java 17
